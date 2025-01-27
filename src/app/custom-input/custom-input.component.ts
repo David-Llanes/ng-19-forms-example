@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  forwardRef,
-  input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, input } from '@angular/core';
 import {
   ControlValueAccessor,
   FormControl,
@@ -31,20 +25,6 @@ export class CustomInputComponent implements ControlValueAccessor {
 
   onTouched = () => {};
   onChange = (_: any) => {};
-
-  constructor() {
-    effect(() => {
-      const currentSignalValue = this.control().value;
-
-      if (this.control().dirty || this.control().touched) {
-        const newValue = this.control().value;
-
-        if (newValue !== currentSignalValue) {
-          this.onChange(newValue);
-        }
-      }
-    });
-  }
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
