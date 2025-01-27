@@ -1,0 +1,6 @@
+@let formGroupLocal = formGroup();
+
+<div [formGroup]="formGroupLocal">
+  <app-custom-input [control]="formGroupLocal.controls.name" formControlName="name" />
+  <app-custom-input [control]="formGroupLocal.controls.value" formControlName="value" />
+</div>
