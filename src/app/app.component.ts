@@ -1,4 +1,5 @@
-import { Component, computed, effect, inject, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormArray,
   FormControl,
@@ -7,8 +8,8 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { FormChildComponent } from './form-child/form-child.component';
-import { toSignal } from '@angular/core/rxjs-interop';
+
+import { FormChildComponent } from './components/form-child.component';
 
 export interface ItemForm {
   id: FormControl<number>;
@@ -21,7 +22,20 @@ export type CustomFormGroup = FormGroup<ItemForm>;
 @Component({
   selector: 'app-root',
   imports: [ReactiveFormsModule, FormChildComponent],
-  templateUrl: './app.component.html',
+  template: `
+    <div>
+      <button (click)="addItem()">Agregar Item</button>
+
+      @for (
+        formGroup of form.controls.items.controls;
+        track formGroup.controls.id.value
+      ) {
+        <app-form-child [formGroup]="formGroup" />
+      }
+
+      <span>Total: {{ this.formValue() }}</span>
+    </div>
+  `,
   styleUrl: './app.component.css',
 })
 export class AppComponent {

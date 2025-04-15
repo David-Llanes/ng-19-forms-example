@@ -1,9 +1,0 @@
-<div>
-  <button (click)="addItem()">Agregar Item</button>
-
-  @for (formGroup of form.controls.items.controls; track formGroup.controls.id.value) {
-    <app-form-child [formGroup]="formGroup" />
-  }
-
-  <span>Total: {{ this.formValue() }}</span>
-</div>

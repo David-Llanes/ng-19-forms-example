@@ -9,8 +9,19 @@ import {
 @Component({
   selector: 'app-custom-input',
   imports: [ReactiveFormsModule],
-  templateUrl: './custom-input.component.html',
-  styleUrl: './custom-input.component.css',
+  template: `
+    @let localControl = control();
+
+    <input [formControl]="localControl" (blur)="onTouched()" />
+
+    @if (localControl.invalid && (localControl.dirty || localControl.touched)) {
+      <div class="error-message">
+        @if (localControl.errors?.['required']) {
+          <span>Este campo es obligatorio</span>
+        }
+      </div>
+    }
+  `,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
