@@ -5,8 +5,9 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MedicalNoteField } from '../models/note-field.model';
+
 import { DataType } from '../models/common.models';
+import { MedicalNoteField } from '../models/note-field.model';
 
 @Component({
   selector: 'app-input-or-select',
@@ -21,21 +22,13 @@ import { DataType } from '../models/common.models';
 
     @if (type === dataTypeId.Combobox) {
       <select [formControl]="localControl">
-        <option value="" disabled selected>Selecciona una opción</option>
+        <option value="" selected>Selecciona una opción</option>
         @for (option of noteField().medicalNoteFieldOptions; track $index) {
-          <option [value]="option">
-            {{ option }}
+          <option [value]="option.fieldOptionName">
+            {{ option.fieldOptionName }}
           </option>
         }
       </select>
-    }
-
-    @if (localControl.invalid && (localControl.dirty || localControl.touched)) {
-      <div class="error-message">
-        @if (localControl.errors?.['required']) {
-          <span>Este campo es obligatorio</span>
-        }
-      </div>
     }
   `,
   providers: [
@@ -48,7 +41,7 @@ import { DataType } from '../models/common.models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InputOrSelectComponent implements ControlValueAccessor {
-  control = input.required<FormControl<any>>();
+  control = input.required<any>();
   noteField = input.required<MedicalNoteField>();
 
   dataTypeId = DataType;

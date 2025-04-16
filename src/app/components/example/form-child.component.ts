@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { CustomFormGroup } from '../app.component';
+import { CustomFormGroup } from '../../app.component';
 import { CustomInputComponent } from './custom-input.component';
 
 @Component({

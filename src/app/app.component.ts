@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-import { FormChildComponent } from './components/form-child.component';
+import { FormChildComponent } from './components/example/form-child.component';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
 export interface ItemForm {

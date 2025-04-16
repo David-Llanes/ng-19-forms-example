@@ -59,9 +59,10 @@ export class DynamicFormComponent implements OnInit {
   }
 
   onSubmit() {
+    console.log('Form Submitted!', this.form.value);
     console.log(
       Object.entries(this.form.value).map(([key, value]) => ({
-        id: key,
+        id: +key,
         value: value,
       }))
     );

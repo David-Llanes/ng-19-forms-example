@@ -2,34 +2,27 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { MedicalNoteField } from '../models/note-field.model';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DataType } from '../models/common.models';
+import { InputOrSelectComponent } from './input-or-select.component';
 
 @Component({
   selector: 'app-dynamic-field',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, InputOrSelectComponent],
   template: `
+    @let control = form().controls[field().id];
+
     <div [formGroup]="form()">
       <label [attr.for]="field().id">{{ field().fieldName }}</label>
       <p>{{ field().description }}</p>
       <div>
-        @switch (field().dataTypeId) {
-          @case (dataTypeId.Text) {
-            <input [formControlName]="field().id" [id]="field().id" />
-          }
-
-          @case (dataTypeId.Combobox) {
-            <select [id]="field().id" [formControlName]="field().id">
-              @for (opt of field().medicalNoteFieldOptions; track opt) {
-                <option [value]="opt.fieldOptionName">
-                  {{ opt.fieldOptionName }}
-                </option>
-              }
-            </select>
-          }
-        }
+        <app-input-or-select [control]="control" [noteField]="field()" />
       </div>
 
-      @if (!isValid) {
-        <div class="errorMessage">{{ field().fieldName }} is required</div>
+      @if (control.invalid && (control.dirty || control.touched)) {
+        <div class="error-message">
+          @if (control.errors?.['required']) {
+            <i>Este campo es obligatorio</i>
+          }
+        </div>
       }
     </div>
 
@@ -43,8 +36,4 @@ export class DynamicFieldComponent {
   form = input.required<FormGroup>();
 
   dataTypeId = DataType;
-
-  get isValid() {
-    return this.form().controls[this.field().id].valid;
-  }
 }
