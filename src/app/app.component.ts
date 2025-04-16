@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 
 import { FormChildComponent } from './components/form-child.component';
+import { RouterLink, RouterOutlet } from '@angular/router';
 
 export interface ItemForm {
   id: FormControl<number>;
@@ -21,8 +22,10 @@ export type CustomFormGroup = FormGroup<ItemForm>;
 
 @Component({
   selector: 'app-root',
-  imports: [ReactiveFormsModule, FormChildComponent],
+  imports: [ReactiveFormsModule, FormChildComponent, RouterLink, RouterOutlet],
   template: `
+    <a routerLink="note">Ir al formulario de notas</a>
+
     <div>
       <button (click)="addItem()">Agregar Item</button>
 
@@ -35,6 +38,8 @@ export type CustomFormGroup = FormGroup<ItemForm>;
 
       <span>Total: {{ this.formValue() }}</span>
     </div>
+
+    <router-outlet />
   `,
   styleUrl: './app.component.css',
 })
